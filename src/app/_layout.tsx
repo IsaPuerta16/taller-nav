@@ -1,18 +1,27 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import 'react-native-gesture-handler';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-SplashScreen.preventAutoHideAsync();
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function RootLayout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <StatusBar style="dark" />  
+      <Stack
+        screenOptions={{
+          headerStyle: { backgroundColor: '#fff' },
+          headerTintColor: '#000',
+          contentStyle: { backgroundColor: '#fff' },
+        }}>
+        <Stack.Screen name="(app)" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="libro/[id]" options={{ title: 'Detalle' }} />
+        <Stack.Screen
+          name="acerca"
+          options={{ presentation: 'modal', title: 'Acerca de' }}
+        />
+      </Stack>
+    </GestureHandlerRootView>
   );
 }
